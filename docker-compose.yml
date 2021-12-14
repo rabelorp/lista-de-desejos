@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  web:
+    container_name: web
+    build: .
+    command: python manage.py runserver -h 0.0.0.0 -p 5000
+    volumes:
+      - .:/wishlist
+    ports:
+      - "8080:5000"
+    depends_on:
+      - db      
+  db:
+    container_name: bd
+    image: postgres:13
+    ports:
+      - "5432:5432"    
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=wishlist
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/ 
+volumes:
+  postgres_data:
